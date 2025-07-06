@@ -28,7 +28,7 @@ func validatePrompt(prompt string) error {
 	if prompt == "" {
 		return ErrEmptyPrompt
 	}
-	if prompt == "e.g., minimalist weather app with sun and cloud" {
+	if prompt == types.DefaultPromptPlaceholder {
 		return ErrPlaceholderPrompt
 	}
 	return nil
@@ -100,7 +100,7 @@ func RunInteractiveMode() error {
 	}
 	if outputDir == "" {
 		fmt.Printf("❌ %s\n", i18n.T("interactive_output_dir_required"))
-		fmt.Printf("💡 %s: just-icon config --output-dir YOUR_PATH\n", i18n.T("interactive_output_dir_set_hint"))
+		fmt.Printf("💡 %s: just-icon config --output-path YOUR_PATH\n", i18n.T("interactive_output_dir_set_hint"))
 		return nil
 	}
 
@@ -175,7 +175,7 @@ func RunInteractiveMode() error {
 // getIconPrompt gets the icon description from user
 func getIconPrompt() (string, error) {
 	result, err := prompt.New().Ask(i18n.T("interactive_prompt_input")).Input(
-		"e.g., minimalist weather app with sun and cloud",
+		types.DefaultPromptPlaceholder,
 		input.WithHelp(true),
 		input.WithValidateFunc(validatePrompt),
 	)
@@ -225,15 +225,15 @@ func getQualitySelection() (string, error) {
 	// Map display text to actual quality values
 	switch result {
 	case i18n.T("interactive_quality_auto"):
-		return "auto", nil
+		return types.QualityAuto, nil
 	case i18n.T("interactive_quality_high"):
-		return "high", nil
+		return types.QualityHigh, nil
 	case i18n.T("interactive_quality_medium"):
-		return "medium", nil
+		return types.QualityMedium, nil
 	case i18n.T("interactive_quality_low"):
-		return "low", nil
+		return types.QualityLow, nil
 	default:
-		return "auto", nil
+		return types.QualityAuto, nil
 	}
 }
 
@@ -243,7 +243,7 @@ func generateIcon(prompt_text string, numImages int, quality, outputDir string) 
 	options := &types.IconGenerationOptions{
 		Prompt:       prompt_text,
 		Output:       outputDir,
-		Model:        "gpt-image-1", // Fixed model
+		Model:        types.ModelGPTImage1, // Fixed model
 		Size:         types.DefaultValues.Size,
 		Quality:      quality,
 		NumImages:    numImages,
@@ -263,7 +263,7 @@ func generateIcon(prompt_text string, numImages int, quality, outputDir string) 
 	fmt.Println()
 	utils.PrintInfo(i18n.T("interactive_generating"))
 	fmt.Printf("%s %s\n", i18n.T("prompt_label"), utils.Bold(options.Prompt))
-	fmt.Printf("%s %s\n", i18n.T("model_label"), utils.Blue("gpt-image-1"))
+	fmt.Printf("%s %s\n", i18n.T("model_label"), utils.Blue(types.ModelGPTImage1))
 	fmt.Printf("%s %s\n", i18n.T("size_label"), utils.Cyan(options.Size))
 	fmt.Printf("%s %s\n", i18n.T("quality_label"), utils.Cyan(options.Quality))
 	fmt.Printf("%s %s\n", i18n.T("quantity_label"), utils.Cyan(fmt.Sprintf("%d", options.NumImages)))

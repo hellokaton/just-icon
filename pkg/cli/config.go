@@ -93,6 +93,12 @@ func configAction(ctx context.Context, cmd *cli.Command) error {
 	return nil
 }
 
+// handleConfigError handles configuration errors consistently
+func handleConfigError(operation string, err error) error {
+	utils.PrintError(i18n.Tf("config_failed_to_save", err.Error()))
+	return err
+}
+
 func setAPIKey(configService *config.Service, apiKey string) error {
 	// Validate API key
 	if err := config.ValidateAPIKey(apiKey); err != nil {
@@ -102,8 +108,7 @@ func setAPIKey(configService *config.Service, apiKey string) error {
 
 	// Save API key
 	if err := configService.SetAPIKey(apiKey); err != nil {
-		utils.PrintError(i18n.Tf("config_failed_to_save", err.Error()))
-		return err
+		return handleConfigError("save API key", err)
 	}
 
 	utils.PrintSuccess(i18n.T("config_api_key_success"))
@@ -118,8 +123,7 @@ func setBaseURL(configService *config.Service, baseURL string) error {
 	if err := configService.UpdateConfig(map[string]interface{}{
 		"base_url": baseURL,
 	}); err != nil {
-		utils.PrintError(i18n.Tf("config_failed_to_save", err.Error()))
-		return err
+		return handleConfigError("save base URL", err)
 	}
 
 	utils.PrintSuccess(i18n.Tf("config_base_url_success", baseURL))
@@ -129,8 +133,7 @@ func setBaseURL(configService *config.Service, baseURL string) error {
 func setOutputPath(configService *config.Service, outputPath string) error {
 	// Save output path
 	if err := configService.SetDefaultOutputPath(outputPath); err != nil {
-		utils.PrintError(i18n.Tf("config_failed_to_save", err.Error()))
-		return err
+		return handleConfigError("save output path", err)
 	}
 
 	utils.PrintSuccess(i18n.Tf("config_output_path_success", outputPath))
@@ -146,8 +149,7 @@ func setLanguage(configService *config.Service, language string) error {
 
 	// Save language
 	if err := configService.SetLanguage(language); err != nil {
-		utils.PrintError(i18n.Tf("config_failed_to_save", err.Error()))
-		return err
+		return handleConfigError("save language", err)
 	}
 
 	// Update localizer

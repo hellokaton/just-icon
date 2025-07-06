@@ -1,5 +1,20 @@
 package types
 
+// Constants for the application
+const (
+	// Model constants
+	ModelGPTImage1 = "gpt-image-1"
+
+	// Quality constants
+	QualityAuto   = "auto"
+	QualityHigh   = "high"
+	QualityMedium = "medium"
+	QualityLow    = "low"
+
+	// UI constants
+	DefaultPromptPlaceholder = "e.g., minimalist weather app with sun and cloud"
+)
+
 // Config represents the application configuration
 type Config struct {
 	OpenAIAPIKey       string `json:"openai_api_key,omitempty"`
@@ -84,9 +99,9 @@ var DefaultValues = struct {
 	Language     string
 	BaseURL      string
 }{
-	Model:        "gpt-image-1",
+	Model:        ModelGPTImage1,
 	Size:         "1024x1024",
-	Quality:      "auto",
+	Quality:      QualityAuto,
 	OutputPath:   "./output",
 	NumImages:    1,
 	Background:   "auto",

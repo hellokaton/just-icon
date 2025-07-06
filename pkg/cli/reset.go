@@ -62,8 +62,7 @@ func NewResetCommand() *cli.Command {
 			}
 
 			utils.PrintSuccess(i18n.T("reset_success"))
-			fmt.Printf("%s\n", i18n.T("reset_next_run"))
-
+			
 			return nil
 		},
 	}
