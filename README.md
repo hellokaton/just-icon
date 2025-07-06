@@ -43,14 +43,14 @@ just-icon
 
 **Real icons generated with `Just Icon`:**
 
-| Prompt                                                                                                            | Result                                                       |
-| ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| `glass-like color-wheel flower made of eight evenly spaced, semi-transparent petals`                              | ![Flower Icon](test-icons/icon-1750560657796.png)            |
-| `glass-like sound wave pattern made of five curved, semi-transparent layers flowing in perfect harmony`           | ![Sound Wave Icon](test-icons/icon-sound-wave.png)           |
-| `glass-like speech bubble composed of three overlapping, semi-transparent rounded rectangles with soft gradients` | ![Messaging Icon](test-icons/icon-messaging.png)             |
-| `glass-like camera aperture made of six triangular, semi-transparent blades forming a perfect hexagonal opening`  | ![Camera Glass Icon](test-icons/icon-camera-glass.png)       |
-| `stylized camera lens with concentric circles in warm sunset colors orange pink and coral gradients`              | ![Camera Retro Icon](test-icons/icon-lens-retro.png)         |
-| `neon-outlined calculator with electric blue glowing numbers`                                                     | ![Neon Calculator Icon](test-icons/icon-calculator-neon.png) |
+| Prompt                                                                                                            | Result                                                                                              |
+| ----------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `glass-like color-wheel flower made of eight evenly spaced, semi-transparent petals`                              | <img src="test-icons/icon-1750560657796.png" alt="Flower Icon" width="200" height="200">            |
+| `glass-like sound wave pattern made of five curved, semi-transparent layers flowing in perfect harmony`           | <img src="test-icons/icon-sound-wave.png" alt="Sound Wave Icon" width="200" height="200">           |
+| `glass-like speech bubble composed of three overlapping, semi-transparent rounded rectangles with soft gradients` | <img src="test-icons/icon-messaging.png" alt="Messaging Icon" width="200" height="200">             |
+| `glass-like camera aperture made of six triangular, semi-transparent blades forming a perfect hexagonal opening`  | <img src="test-icons/icon-camera-glass.png" alt="Camera Glass Icon" width="200" height="200">       |
+| `stylized camera lens with concentric circles in warm sunset colors orange pink and coral gradients`              | <img src="test-icons/icon-lens-retro.png" alt="Camera Retro Icon" width="200" height="200">         |
+| `neon-outlined calculator with electric blue glowing numbers`                                                     | <img src="test-icons/icon-calculator-neon.png" alt="Neon Calculator Icon" width="200" height="200"> |
 
 ## 🎨 Amazing Example Prompts
 
