@@ -4,9 +4,9 @@ English | [简体中文](README_zh.md)
 
 > AI-powered icon generation CLI tool built with Go
 
-Create stunning app icons in seconds using [KatonAI](https://api.katonai.dev)'s `gpt-image-1` API. A Go implementation inspired by SnapAI, perfect for developers who want professional icons without the design drama! 🎨
+Create stunning app icons in seconds using [KatonAI](https://api.katonai.dev) `gpt-image-1` API. A Go implementation inspired by SnapAI, perfect for developers who want professional icons without the design drama! 🎨
 
-## 📸 预览
+## 📸 Preview
 
 ![snipate_1.png](screenshots/just_icon.png)
 
