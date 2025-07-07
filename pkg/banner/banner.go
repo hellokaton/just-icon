@@ -62,9 +62,10 @@ func ShowBanner() {
 
 	fmt.Println(centerText(gradientSubtitle, 70))
 
-	version := "v1.0.0"
-	centeredVersion := centerText(version, 70)
-	pterm.NewStyle(pterm.FgGray).Println(centeredVersion)
+	// Add creator information
+	createdBy := "created by hellokaton"
+	centeredCreatedBy := centerText(createdBy, 70)
+	pterm.NewStyle(pterm.FgGray).Println(centeredCreatedBy)
 
 	fmt.Println() // Add some space at the bottom
 }

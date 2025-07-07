@@ -18,26 +18,49 @@
 
 ## 🚀 快速开始
 
-### 安装
+## 📦 安装方式
+
+选择适合您的安装方式：
+
+### 📥 **方式一：下载二进制文件（推荐）**
+
+**适合大多数用户 - 无需额外设置！**
+
+1. 前往 [发布页面](https://github.com/hellokaton/just-icon/releases)
+2. 下载适合您系统的二进制文件：
+   - **macOS**: `just-icon-darwin-amd64` (Intel) 或 `just-icon-darwin-arm64` (Apple Silicon)
+   - **Linux**: `just-icon-linux-amd64`
+   - **Windows**: `just-icon-windows-amd64.exe`
+
+### 🔧 **方式二：从源码安装（Go 开发者）**
+
+**适合喜欢从源码构建的 Go 开发者**
 
 ```bash
-# 从源码安装 (需要 Go 1.24+)
+# 需要 Go 1.24+
 go install github.com/hellokaton/just-icon@latest
-
-# 或从发布页面下载二进制文件
-https://github.com/hellokaton/just-icon/releases
 ```
 
-> [!IMPORTANT]
-> 您需要一个 API 密钥来生成图标。请在 [KatonAI](https://api.katonai.dev) 获取 - 每个图标约 $0.06！
+## 🚀 开始使用
 
-### 首次设置
+### 第一步：获取 API 密钥
+
+> [!IMPORTANT]
+> 您需要一个 API 密钥来生成图标。请在 [KatonAI](https://api.katonai.dev) 获取
+
+### 第二步：首次设置
 
 运行交互式设置向导：
 
 ```bash
 just-icon
 ```
+
+设置向导将引导您完成：
+
+- API 密钥配置
+- 输出目录设置
+- 语言偏好选择
 
 ## 🎨 实际效果展示
 
@@ -142,3 +165,13 @@ just-icon reset
 ## 💡 项目灵感
 
 本项目灵感来自于 [snapai](https://github.com/betomoedano/snapai) - 一个出色的基于 Node.js 的图标生成工具。Just Icon 将同样强大的概念带到了 Go 生态系统中，并提供了增强功能和跨平台支持。
+
+---
+
+## 📞 联系作者
+
+**关注创作者：**
+
+- 🐦 X (Twitter): [@hellokaton](https://x.com/hellokaton)
+
+欢迎联系我提出问题、反馈或者只是打个招呼！👋

@@ -18,26 +18,49 @@ Create stunning app icons in seconds using AI image generation via KatonAI servi
 
 ### 🚀 Quick Start
 
-#### Installation
+## 📦 Installation
+
+Choose your preferred installation method:
+
+### 📥 **Option 1: Download Binary (Recommended)**
+
+**Perfect for most users - no setup required!**
+
+1. Go to [Releases](https://github.com/hellokaton/just-icon/releases)
+2. Download the binary for your system:
+   - **macOS**: `just-icon-darwin-amd64` (Intel) or `just-icon-darwin-arm64` (Apple Silicon)
+   - **Linux**: `just-icon-linux-amd64`
+   - **Windows**: `just-icon-windows-amd64.exe`
+
+### 🔧 **Option 2: Install from Source (Go Developers)**
+
+**For Go developers who prefer building from source**
 
 ```bash
-# Install from source (Go 1.24+ required)
+# Requires Go 1.24+
 go install github.com/hellokaton/just-icon@latest
-
-# Or download binary from releases
-https://github.com/hellokaton/just-icon/releases
 ```
 
-> [!IMPORTANT]
-> You'll need an API key to generate icons. Get one at [KatonAI](https://api.katonai.dev) - it costs ~$0.06 per icon!
+## 🚀 Getting Started
 
-#### First Time Setup
+### Step 1: Get Your API Key
+
+> [!IMPORTANT]
+> You'll need an API key to generate icons. Get one at [KatonAI](https://api.katonai.dev)
+
+### Step 2: First Time Setup
 
 Run the interactive setup wizard:
 
 ```bash
 just-icon
 ```
+
+The wizard will guide you through:
+
+- API key configuration
+- Output directory setup
+- Language preference selection
 
 ## 🎨 See It In Action
 
@@ -142,3 +165,13 @@ Love Just Icon? Help make it even better!
 ## 💡 Inspiration
 
 This project is inspired by [snapai](https://github.com/betomoedano/snapai) - a fantastic Node.js-based icon generation tool. Just Icon brings the same powerful concept to the Go ecosystem with enhanced features and cross-platform support.
+
+---
+
+## 📞 Contact
+
+**Follow the creator:**
+
+- 🐦 X (Twitter): [@hellokaton](https://x.com/hellokaton)
+
+Feel free to reach out for questions, feedback, or just to say hi! 👋
