@@ -71,6 +71,8 @@
   "interactive_quality_medium": "Medium",
   "interactive_quality_low": "Low",
   "interactive_generating": "🎨 Generating your icon...",
+  "interactive_generating_spinner": "Generating icons with AI",
+  "interactive_generating_success": "Icons generated successfully!",
   "interactive_another": "Would you like to generate another icon?",
   "interactive_yes": "Yes",
   "interactive_no": "No",

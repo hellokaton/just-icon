@@ -9,6 +9,7 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/bubbles/list"
+	"github.com/pterm/pterm"
 	"github.com/sveltinio/prompti/choose"
 	"github.com/sveltinio/prompti/input"
 
@@ -301,10 +302,29 @@ func generateIcon(prompt_text string, numImages int, quality, outputDir string) 
 	fmt.Printf("%s %s\n", i18n.T("quantity_label"), utils.Cyan(fmt.Sprintf("%d", options.NumImages)))
 	fmt.Println()
 
-	// Generate icons
-	imageBase64Data, err := client.GenerateIcon(options)
-	if err != nil {
-		return err
+	// Create and start spinner for API call
+	spinner, _ := pterm.DefaultSpinner.Start(i18n.T("interactive_generating_spinner"))
+
+	// Generate icons with spinner
+	var imageBase64Data []string
+	var genErr error
+
+	// Run the API call in a goroutine to allow spinner animation
+	done := make(chan bool)
+	go func() {
+		imageBase64Data, genErr = client.GenerateIcon(options)
+		done <- true
+	}()
+
+	// Wait for completion
+	<-done
+
+	// Stop spinner
+	if genErr != nil {
+		spinner.Fail("Generation failed")
+		return genErr
+	} else {
+		spinner.Success(i18n.T("interactive_generating_success"))
 	}
 
 	// Create output directory if it doesn't exist

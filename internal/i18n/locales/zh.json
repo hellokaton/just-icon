@@ -71,6 +71,8 @@
   "interactive_quality_medium": "中等",
   "interactive_quality_low": "低质量",
   "interactive_generating": "🎨 正在生成您的图标...",
+  "interactive_generating_spinner": "正在使用AI生成图标",
+  "interactive_generating_success": "图标生成成功！",
   "interactive_another": "您想生成另一个图标吗？",
   "interactive_yes": "是",
   "interactive_no": "否",
