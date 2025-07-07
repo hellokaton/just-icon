@@ -4,27 +4,31 @@
 
 > 基于 Go 构建的 AI 驱动图标生成 CLI 工具
 
-使用 KatonAI 服务的 AI 图像生成功能，在几秒钟内创建令人惊艳的应用图标。这是一个受 SnapAI 启发的 Go 实现，非常适合希望获得专业图标而无需设计麻烦的开发者！🎨
+使用 [KatonAI](https://api.katonai.dev) 的 `gpt-image-1` 接口，几秒钟就能搞定精美的应用图标。受 SnapAI 启发打造的 Go 版本，专为想要专业图标但不想折腾设计的开发者而生！🎨
 
-## ✨ 特性
+## 📸 预览
 
-- 🚀 **闪电般快速** - 几秒钟生成图标，而非几小时
-- 🎯 **跨平台** - 支持 macOS、Linux 和 Windows
-- 🛡️ **隐私优先** - 零数据收集，API 密钥保存在本地
-- 💎 **高清质量** - 适用于任何设备的清晰图标
-- 🔧 **开发者友好** - 简单的 CLI，完美适配 CI/CD
-- 🌍 **多语言** - 支持中英文界面
-- ⚡ **交互模式** - 用户友好的引导体验
+![snipate_1.png](screenshots/just_icon.png)
+
+## ✨ 亮点特性
+
+- 🚀 **快如闪电** - 几秒钟搞定图标，告别熬夜加班
+- 🎯 **全平台制霸** - macOS、Linux、Windows 通通支持
+- 🛡️ **隐私至上** - 零数据收集，API 密钥只在本地
+- 💎 **高清画质** - 任何设备都能完美呈现
+- 🔧 **开发者福音** - 简洁 CLI，CI/CD 的完美搭档
+- 🌍 **中英双语** - 界面语言随心切换
+- ⚡ **交互体验** - 友好引导，上手即用
 
 ## 🚀 快速开始
 
-## 📦 安装方式
+### 📦 安装方式
 
 选择适合您的安装方式：
 
-### 📥 **方式一：下载二进制文件（推荐）**
+#### 📥 **方式一：下载二进制文件（推荐）**
 
-**适合大多数用户 - 无需额外设置！**
+**最简单的方式 - 下载即用！**
 
 1. 前往 [发布页面](https://github.com/hellokaton/just-icon/releases)
 2. 下载适合您系统的二进制文件：
@@ -32,9 +36,9 @@
    - **Linux**: `just-icon-linux-amd64`
    - **Windows**: `just-icon-windows-amd64.exe`
 
-### 🔧 **方式二：从源码安装（Go 开发者）**
+#### 🔧 **方式二：从源码安装（Go 开发者）**
 
-**适合喜欢从源码构建的 Go 开发者**
+**适合喜欢折腾的 Go 开发者**
 
 ```bash
 # 需要 Go 1.24+
@@ -50,21 +54,21 @@ go install github.com/hellokaton/just-icon@latest
 
 ### 第二步：首次设置
 
-运行交互式设置向导：
+运行程序开始配置：
 
 ```bash
 just-icon
 ```
 
-设置向导将引导您完成：
+程序会友好地引导您完成：
 
+- 语言偏好选择
 - API 密钥配置
 - 输出目录设置
-- 语言偏好选择
 
 ## 🎨 实际效果展示
 
-**使用 Just Icon 生成的真实图标：**
+**看看 Just Icon 的实际效果：**
 
 <table width="100%">
   <thead>
@@ -103,7 +107,7 @@ just-icon
 
 ## 🎨 精彩示例提示词
 
-试试这些经过验证的提示词，它们能创建令人惊艳的图标：
+想要创建出色的图标？来试试这些超棒的提示词：
 
 ```bash
 # 玻璃质感设计（流行趋势！）
@@ -120,7 +124,7 @@ just-icon
 ```
 
 > [!TIP]
-> 使用描述性词汇如 "glass-like"、"minimalist"、"vibrant gradients" 和 "soft pastel hues" 可以获得更好的效果！
+> 小贴士：多用一些描述性词汇，比如 "glass-like"（玻璃质感）、"minimalist"（极简风格）、"vibrant gradients"（鲜艳渐变）和 "soft pastel hues"（柔和色调），效果会更棒哦！
 
 ### 🛠️ 命令参考
 
@@ -140,20 +144,20 @@ just-icon reset
 
 ### 🔐 隐私与安全
 
-**您的数据属于您** 🛡️
+**您的数据，您做主** 🛡️
 
 - ✅ **零跟踪** - 我们绝对不收集任何数据
-- ✅ **本地存储** - API 密钥存储在 `~/just-icon.json`
-- ✅ **无遥测** - 无分析，无回传
-- ✅ **开源** - 检查每一行代码
-- ✅ **无需账户** - 安装即用
+- ✅ **本地存储** - API 密钥安全存储在 `~/just-icon.json`
+- ✅ **无遥测** - 没有分析，没有回传
+- ✅ **开源透明** - 每一行代码都可以查看
+- ✅ **无需注册** - 下载即用，简单方便
 
-### 🤝 贡献
+### 🤝 参与贡献
 
-喜欢 Just Icon？帮助我们让它变得更好！
+喜欢 Just Icon？一起让它变得更棒吧！
 
-- 🐛 [报告错误](https://github.com/hellokaton/just-icon/issues)
-- 💡 [建议功能](https://github.com/hellokaton/just-icon/issues)
+- 🐛 [报告 Bug](https://github.com/hellokaton/just-icon/issues)
+- 💡 [提出想法](https://github.com/hellokaton/just-icon/issues)
 - 🔧 [贡献代码](https://github.com/hellokaton/just-icon/pulls)
 
 ### 📄 许可证
@@ -164,14 +168,14 @@ just-icon reset
 
 ## 💡 项目灵感
 
-本项目灵感来自于 [snapai](https://github.com/betomoedano/snapai) - 一个出色的基于 Node.js 的图标生成工具。Just Icon 将同样强大的概念带到了 Go 生态系统中，并提供了增强功能和跨平台支持。
+这个项目的灵感来自于 [snapai](https://github.com/betomoedano/snapai) - 一个非常棒的 Node.js 图标生成工具。Just Icon 把这个绝妙的想法带到了 Go 的世界，还加入了更多实用功能和更好的跨平台支持。
 
 ---
 
 ## 📞 联系作者
 
-**关注创作者：**
+**关注作者动态：**
 
 - 🐦 X (Twitter): [@hellokaton](https://x.com/hellokaton)
 
-欢迎联系我提出问题、反馈或者只是打个招呼！👋
+有问题、建议或者想聊天？随时欢迎！👋

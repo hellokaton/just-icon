@@ -4,27 +4,31 @@ English | [简体中文](README_zh.md)
 
 > AI-powered icon generation CLI tool built with Go
 
-Create stunning app icons in seconds using AI image generation via KatonAI service. A Go implementation inspired by SnapAI, perfect for developers who want professional icons without the design hassle! 🎨
+Create stunning app icons in seconds using [KatonAI](https://api.katonai.dev)'s `gpt-image-1` API. A Go implementation inspired by SnapAI, perfect for developers who want professional icons without the design drama! 🎨
 
-### ✨ Features
+## 📸 预览
+
+![snipate_1.png](screenshots/just_icon.png)
+
+## ✨ Features
 
 - 🚀 **Lightning Fast** - Generate icons in seconds, not hours
-- 🎯 **Cross Platform** - Works on macOS, Linux, and Windows
+- 🎯 **Cross Platform** - Works everywhere: macOS, Linux, and Windows
 - 🛡️ **Privacy First** - Zero data collection, API keys stay local
 - 💎 **HD Quality** - Crystal clear icons for any device
 - 🔧 **Developer Friendly** - Simple CLI, perfect for CI/CD
-- 🌍 **Multilingual** - Support for English and Chinese interfaces
+- 🌍 **Multilingual** - English and Chinese interfaces
 - ⚡ **Interactive Mode** - User-friendly guided experience
 
-### 🚀 Quick Start
+## 🚀 Quick Start
 
-## 📦 Installation
+### 📦 Installation
 
 Choose your preferred installation method:
 
-### 📥 **Option 1: Download Binary (Recommended)**
+#### 📥 **Option 1: Download Binary (Recommended)**
 
-**Perfect for most users - no setup required!**
+**The easiest way - just download and go!**
 
 1. Go to [Releases](https://github.com/hellokaton/just-icon/releases)
 2. Download the binary for your system:
@@ -32,9 +36,9 @@ Choose your preferred installation method:
    - **Linux**: `just-icon-linux-amd64`
    - **Windows**: `just-icon-windows-amd64.exe`
 
-### 🔧 **Option 2: Install from Source (Go Developers)**
+#### 🔧 **Option 2: Install from Source (Go Developers)**
 
-**For Go developers who prefer building from source**
+**For Go developers who love to tinker**
 
 ```bash
 # Requires Go 1.24+
@@ -50,21 +54,21 @@ go install github.com/hellokaton/just-icon@latest
 
 ### Step 2: First Time Setup
 
-Run the interactive setup wizard:
+Run the app to get started:
 
 ```bash
-just-icon
+./just-icon
 ```
 
-The wizard will guide you through:
+It'll walk you through:
 
+- Language preference selection
 - API key configuration
 - Output directory setup
-- Language preference selection
 
 ## 🎨 See It In Action
 
-**Real icons generated with `Just Icon`:**
+**Check out what `Just Icon` can do:**
 
 <table width="100%">
   <thead>
@@ -103,7 +107,7 @@ The wizard will guide you through:
 
 ## 🎨 Amazing Example Prompts
 
-Try these proven prompts that create stunning icons:
+Want to create awesome icons? Try these killer prompts:
 
 ```bash
 # Glass-like design (trending!)
@@ -120,7 +124,7 @@ Try these proven prompts that create stunning icons:
 ```
 
 > [!TIP]
-> Use descriptive words like "glass-like", "minimalist", "vibrant gradients", and "soft pastel hues" for better results!
+> Pro tip: Use descriptive words like "glass-like", "minimalist", "vibrant gradients", and "soft pastel hues" for better results!
 
 ### 🛠️ Command Reference
 
@@ -140,20 +144,20 @@ just-icon reset
 
 ### 🔐 Privacy & Security
 
-**Your data stays yours** 🛡️
+**Your data, your rules** 🛡️
 
 - ✅ **Zero tracking** - We collect absolutely nothing
-- ✅ **Local storage** - API keys stored in `~/just-icon.json`
+- ✅ **Local storage** - API keys safely stored in `~/just-icon.json`
 - ✅ **No telemetry** - No analytics, no phone-home
 - ✅ **Open source** - Inspect every line of code
-- ✅ **No accounts** - Just install and use
+- ✅ **No accounts** - Just download and use
 
 ### 🤝 Contributing
 
-Love Just Icon? Help make it even better!
+Love Just Icon? Let's make it even better!
 
 - 🐛 [Report bugs](https://github.com/hellokaton/just-icon/issues)
-- 💡 [Suggest features](https://github.com/hellokaton/just-icon/issues)
+- 💡 [Share ideas](https://github.com/hellokaton/just-icon/issues)
 - 🔧 [Submit pull requests](https://github.com/hellokaton/just-icon/pulls)
 
 ### 📄 License
@@ -164,7 +168,7 @@ Love Just Icon? Help make it even better!
 
 ## 💡 Inspiration
 
-This project is inspired by [snapai](https://github.com/betomoedano/snapai) - a fantastic Node.js-based icon generation tool. Just Icon brings the same powerful concept to the Go ecosystem with enhanced features and cross-platform support.
+This project is inspired by [snapai](https://github.com/betomoedano/snapai) - a fantastic Node.js-based icon generation tool. Just Icon brings the same awesome concept to the Go world with enhanced features and better cross-platform support.
 
 ---
 
@@ -174,4 +178,4 @@ This project is inspired by [snapai](https://github.com/betomoedano/snapai) - a 
 
 - 🐦 X (Twitter): [@hellokaton](https://x.com/hellokaton)
 
-Feel free to reach out for questions, feedback, or just to say hi! 👋
+Got questions, feedback, or just want to chat? Hit me up! 👋

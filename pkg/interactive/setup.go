@@ -56,11 +56,8 @@ func SetupWizard() error {
 		return err
 	}
 
-	// Clear screen and show welcome message in selected language
+	// Clear screen after language selection
 	fmt.Print("\033[2J\033[H") // Clear screen and move cursor to top
-	fmt.Printf("🎨 %s\n", "Welcome to Just Icon!")
-	fmt.Println("Let's continue setting up your configuration.")
-	fmt.Println()
 
 	// Step 2: Base URL configuration
 	if err := setupBaseURL(configService); err != nil {
