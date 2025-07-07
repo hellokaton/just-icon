@@ -8,10 +8,10 @@ import (
 
 	"github.com/urfave/cli/v3"
 
+	"just-icon/internal/banner"
+	justcli "just-icon/internal/cli"
 	"just-icon/internal/i18n"
-	justcli "just-icon/pkg/cli"
-	"just-icon/pkg/interactive"
-	"just-icon/pkg/banner"
+	"just-icon/internal/interactive"
 )
 
 func main() {
