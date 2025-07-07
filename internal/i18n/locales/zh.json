@@ -63,7 +63,7 @@
   "interactive_api_key_empty_warning": "API密钥不能为空。您可以稍后使用以下命令设置：",
   "interactive_api_key_set_hint": "设置命令",
   "interactive_output_dir_prompt": "输出目录",
-  "interactive_prompt_input": "提示词：",
+  "interactive_prompt_input": "提示词",
   "interactive_quantity_prompt": "生成数量",
   "interactive_quality_prompt": "输出质量",
   "interactive_quality_auto": "自动",
@@ -82,12 +82,7 @@
   "interactive_output_dir_required": "需要设置输出目录",
   "interactive_output_dir_set_hint": "设置命令",
   "icon_generation_complete": "🎉 图标生成完成！",
-
-  "reset_usage": "重置配置为默认值",
-  "reset_flag_force": "强制重置，无需确认",
-  "reset_warning": "这将重置所有配置为默认值并清除您的API密钥。",
-  "reset_confirm": "您确定要继续吗？",
-  "reset_cancelled": "重置已取消。",
-  "reset_success": "配置重置成功！",
-  "reset_failed": "重置配置失败：%s"
+  "icon_generation_summary": "在 %s 中生成了 %s 张图片",
+  "interactive_quality_error": "请选择一个质量级别。",
+  "interactive_another_error": "请选择一个选项。"
 }

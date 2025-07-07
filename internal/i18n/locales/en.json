@@ -82,12 +82,7 @@
   "interactive_output_dir_required": "Output directory is required",
   "interactive_output_dir_set_hint": "Set with",
   "icon_generation_complete": "🎉 Icon generation complete!",
-
-  "reset_usage": "Reset configuration to default values",
-  "reset_flag_force": "Force reset without confirmation",
-  "reset_warning": "This will reset all your configuration to default values and clear your API key.",
-  "reset_confirm": "Are you sure you want to continue?",
-  "reset_cancelled": "Reset cancelled.",
-  "reset_success": "Configuration reset successfully!",
-  "reset_failed": "Failed to reset configuration: %s"
+  "icon_generation_summary": "Generated %s image(s) in %s",
+  "interactive_quality_error": "Please select a quality level.",
+  "interactive_another_error": "Please select an option."
 }

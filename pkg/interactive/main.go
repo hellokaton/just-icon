@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/cqroot/prompt"
-	"github.com/cqroot/prompt/choose"
-	"github.com/cqroot/prompt/input"
+	"github.com/charmbracelet/bubbles/list"
+	"github.com/sveltinio/prompti/choose"
+	"github.com/sveltinio/prompti/input"
 
 	"just-icon/internal/config"
 	"just-icon/internal/i18n"
@@ -21,6 +21,7 @@ import (
 
 var ErrEmptyPrompt = errors.New("empty")
 var ErrPlaceholderPrompt = errors.New("placeholder")
+var ErrUserQuit = errors.New("user quit")
 
 // validatePrompt validates that the prompt is not empty and not the placeholder text
 func validatePrompt(prompt string) error {
@@ -110,7 +111,7 @@ func RunInteractiveMode() error {
 		// Get icon prompt from user
 		prompt_text, err := getIconPrompt()
 		if err != nil {
-			if errors.Is(err, prompt.ErrUserQuit) {
+			if errors.Is(err, ErrUserQuit) {
 				// Exit silently without goodbye message when user presses Ctrl+C
 				break
 			}
@@ -128,7 +129,7 @@ func RunInteractiveMode() error {
 		// Get quantity selection
 		quantity, err := getQuantitySelection()
 		if err != nil {
-			if errors.Is(err, prompt.ErrUserQuit) {
+			if errors.Is(err, ErrUserQuit) {
 				// Exit silently without goodbye message when user presses Ctrl+C
 				break
 			}
@@ -138,7 +139,7 @@ func RunInteractiveMode() error {
 		// Get quality selection
 		quality_level, err := getQualitySelection()
 		if err != nil {
-			if errors.Is(err, prompt.ErrUserQuit) {
+			if errors.Is(err, ErrUserQuit) {
 				// Exit silently without goodbye message when user presses Ctrl+C
 				break
 			}
@@ -174,12 +175,22 @@ func RunInteractiveMode() error {
 
 // getIconPrompt gets the icon description from user
 func getIconPrompt() (string, error) {
-	result, err := prompt.New().Ask(i18n.T("interactive_prompt_input")).Input(
-		types.DefaultPromptPlaceholder,
-		input.WithHelp(true),
-		input.WithValidateFunc(validatePrompt),
-	)
+	cfg := &input.Config{
+		Message:      i18n.T("interactive_prompt_input"),
+		Placeholder:  types.DefaultPromptPlaceholder,
+		ValidateFunc: validatePrompt,
+		ShowResult:   false,
+		Styles:       input.DefaultStyles(),
+	}
+
+	result, err := input.Run(cfg)
 	if err != nil {
+		// Check for user quit (Ctrl+C)
+		if strings.Contains(err.Error(), "interrupt") ||
+			strings.Contains(err.Error(), "cancelled") ||
+			strings.Contains(err.Error(), "user quit") {
+			return "", ErrUserQuit
+		}
 		return "", err
 	}
 
@@ -188,9 +199,22 @@ func getIconPrompt() (string, error) {
 
 // getQuantitySelection gets the quantity selection from user
 func getQuantitySelection() (int, error) {
-	result, err := prompt.New().Ask(i18n.T("interactive_quantity_prompt")).
-		Input("1", input.WithInputMode(input.InputNumber))
+	cfg := &input.Config{
+		Message:      i18n.T("interactive_quantity_prompt"),
+		Initial:      "1",
+		ValidateFunc: input.ValidateInteger,
+		ShowResult:   false,
+		Styles:       input.DefaultStyles(),
+	}
+
+	result, err := input.Run(cfg)
 	if err != nil {
+		// Check for user quit (Ctrl+C)
+		if strings.Contains(err.Error(), "interrupt") ||
+			strings.Contains(err.Error(), "cancelled") ||
+			strings.Contains(err.Error(), "user quit") {
+			return 0, ErrUserQuit
+		}
 		return 0, err
 	}
 
@@ -207,18 +231,26 @@ func getQuantitySelection() (int, error) {
 
 // getQualitySelection gets the quality selection from user
 func getQualitySelection() (string, error) {
-	qualities := []string{
-		i18n.T("interactive_quality_auto"),
-		i18n.T("interactive_quality_high"),
-		i18n.T("interactive_quality_medium"),
-		i18n.T("interactive_quality_low"),
+	cfg := &choose.Config{
+		Title:    i18n.T("interactive_quality_prompt"),
+		ErrorMsg: i18n.T("interactive_quality_error"),
 	}
 
-	result, err := prompt.New().Ask(i18n.T("interactive_quality_prompt")).Choose(
-		qualities,
-		choose.WithHelp(true),
-	)
+	entries := []list.Item{
+		choose.Item{Name: i18n.T("interactive_quality_auto"), Desc: i18n.T("interactive_quality_auto")},
+		choose.Item{Name: i18n.T("interactive_quality_high"), Desc: i18n.T("interactive_quality_high")},
+		choose.Item{Name: i18n.T("interactive_quality_medium"), Desc: i18n.T("interactive_quality_medium")},
+		choose.Item{Name: i18n.T("interactive_quality_low"), Desc: i18n.T("interactive_quality_low")},
+	}
+
+	result, err := choose.Run(cfg, entries)
 	if err != nil {
+		// Check for user quit (Ctrl+C)
+		if strings.Contains(err.Error(), "interrupt") ||
+			strings.Contains(err.Error(), "cancelled") ||
+			strings.Contains(err.Error(), "user quit") {
+			return "", ErrUserQuit
+		}
 		return "", err
 	}
 
@@ -314,7 +346,7 @@ func generateIcon(prompt_text string, numImages int, quality, outputDir string) 
 	// Show summary
 	fmt.Println()
 	utils.PrintSubHeader(i18n.T("icon_generation_complete"))
-	fmt.Printf("Generated %s image(s) in %s\n",
+	fmt.Printf(i18n.T("icon_generation_summary")+"\n",
 		utils.Green(fmt.Sprintf("%d", len(savedFiles))),
 		utils.Blue(options.Output))
 
@@ -323,12 +355,17 @@ func generateIcon(prompt_text string, numImages int, quality, outputDir string) 
 
 // askForAnother asks if user wants to generate another icon
 func askForAnother() bool {
-	options := []string{
-		i18n.T("interactive_yes"),
-		i18n.T("interactive_no"),
+	cfg := &choose.Config{
+		Title:    i18n.T("interactive_another"),
+		ErrorMsg: i18n.T("interactive_another_error"),
 	}
 
-	result, err := prompt.New().Ask(i18n.T("interactive_another")).Choose(options)
+	entries := []list.Item{
+		choose.Item{Name: i18n.T("interactive_yes"), Desc: i18n.T("interactive_yes")},
+		choose.Item{Name: i18n.T("interactive_no"), Desc: i18n.T("interactive_no")},
+	}
+
+	result, err := choose.Run(cfg, entries)
 	if err != nil {
 		// If user presses Ctrl+C or any error occurs, return false to exit
 		return false
