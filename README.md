@@ -8,13 +8,13 @@ Create stunning app icons in seconds using AI image generation via KatonAI servi
 
 ### ✨ Features
 
-🚀 **Lightning Fast** - Generate icons in seconds, not hours
-🎯 **Cross Platform** - Works on macOS, Linux, and Windows
-🛡️ **Privacy First** - Zero data collection, API keys stay local
-💎 **HD Quality** - Crystal clear icons for any device
-🔧 **Developer Friendly** - Simple CLI, perfect for CI/CD
-🌍 **Multilingual** - Support for English and Chinese interfaces
-⚡ **Interactive Mode** - User-friendly guided experience
+- 🚀 **Lightning Fast** - Generate icons in seconds, not hours
+- 🎯 **Cross Platform** - Works on macOS, Linux, and Windows
+- 🛡️ **Privacy First** - Zero data collection, API keys stay local
+- 💎 **HD Quality** - Crystal clear icons for any device
+- 🔧 **Developer Friendly** - Simple CLI, perfect for CI/CD
+- 🌍 **Multilingual** - Support for English and Chinese interfaces
+- ⚡ **Interactive Mode** - User-friendly guided experience
 
 ### 🚀 Quick Start
 

@@ -114,7 +114,7 @@ func RunInteractiveMode() error {
 		if err != nil {
 			if errors.Is(err, ErrUserQuit) {
 				// Exit silently without goodbye message when user presses Ctrl+C
-				break
+				return ErrUserQuit
 			}
 			if errors.Is(err, ErrEmptyPrompt) {
 				fmt.Printf("❌ %s\n", i18n.T("validation_prompt_empty"))
@@ -132,7 +132,7 @@ func RunInteractiveMode() error {
 		if err != nil {
 			if errors.Is(err, ErrUserQuit) {
 				// Exit silently without goodbye message when user presses Ctrl+C
-				break
+				return ErrUserQuit
 			}
 			return err
 		}
@@ -142,7 +142,7 @@ func RunInteractiveMode() error {
 		if err != nil {
 			if errors.Is(err, ErrUserQuit) {
 				// Exit silently without goodbye message when user presses Ctrl+C
-				break
+				return ErrUserQuit
 			}
 			return err
 		}
@@ -189,7 +189,8 @@ func getIconPrompt() (string, error) {
 		// Check for user quit (Ctrl+C)
 		if strings.Contains(err.Error(), "interrupt") ||
 			strings.Contains(err.Error(), "cancelled") ||
-			strings.Contains(err.Error(), "user quit") {
+			strings.Contains(err.Error(), "user quit") ||
+			err.Error() == "" {
 			return "", ErrUserQuit
 		}
 		return "", err
@@ -213,7 +214,8 @@ func getQuantitySelection() (int, error) {
 		// Check for user quit (Ctrl+C)
 		if strings.Contains(err.Error(), "interrupt") ||
 			strings.Contains(err.Error(), "cancelled") ||
-			strings.Contains(err.Error(), "user quit") {
+			strings.Contains(err.Error(), "user quit") ||
+			err.Error() == "" {
 			return 0, ErrUserQuit
 		}
 		return 0, err
@@ -249,7 +251,8 @@ func getQualitySelection() (string, error) {
 		// Check for user quit (Ctrl+C)
 		if strings.Contains(err.Error(), "interrupt") ||
 			strings.Contains(err.Error(), "cancelled") ||
-			strings.Contains(err.Error(), "user quit") {
+			strings.Contains(err.Error(), "user quit") ||
+			err.Error() == "" {
 			return "", ErrUserQuit
 		}
 		return "", err
