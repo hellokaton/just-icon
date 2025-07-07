@@ -20,6 +20,21 @@ import (
 var ErrEmptyAPIKey = errors.New("API key cannot be empty")
 var ErrSkipAPIKey = errors.New("user skipped API key setup")
 
+// checkUserQuit checks if the error indicates user quit
+func checkUserQuit(err error) error {
+	if err == nil {
+		return nil
+	}
+	
+	errMsg := err.Error()
+	if strings.Contains(errMsg, types.ErrorInterrupt) ||
+		strings.Contains(errMsg, types.ErrorCancelled) ||
+		strings.Contains(errMsg, types.ErrorUserQuit) {
+		return ErrUserQuit
+	}
+	return err
+}
+
 // validateAPIKey validates that the API key is not empty and has correct format
 func validateAPIKey(apiKey string) error {
 	apiKey = strings.TrimSpace(apiKey)
@@ -116,13 +131,7 @@ func setupLanguage(configService *config.Service) error {
 	}
 
 	result, err := choose.Run(cfg, entries)
-	if err != nil {
-		// Check for user quit (Ctrl+C)
-		if strings.Contains(err.Error(), "interrupt") ||
-			strings.Contains(err.Error(), "cancelled") ||
-			strings.Contains(err.Error(), "user quit") {
-			return ErrUserQuit
-		}
+	if err := checkUserQuit(err); err != nil {
 		return err
 	}
 
@@ -144,15 +153,7 @@ func setupLanguage(configService *config.Service) error {
 	}
 
 	// Update localizer immediately to make the change take effect
-	var lang i18n.Language
-	if language == "zh" {
-		lang = i18n.Chinese
-	} else {
-		lang = i18n.English
-	}
-
-	// Re-initialize the entire i18n system with the new language
-	i18n.InitLocalizer(lang)
+	i18n.SwitchLanguage(language)
 
 	return nil
 }
@@ -169,13 +170,7 @@ func setupBaseURL(configService *config.Service) error {
 	}
 
 	result, err := input.Run(cfg)
-	if err != nil {
-		// Check for user quit (Ctrl+C)
-		if strings.Contains(err.Error(), "interrupt") ||
-			strings.Contains(err.Error(), "cancelled") ||
-			strings.Contains(err.Error(), "user quit") {
-			return ErrUserQuit
-		}
+	if err := checkUserQuit(err); err != nil {
 		return err
 	}
 
@@ -210,9 +205,7 @@ func setupAPIKey(configService *config.Service) error {
 		result, err := input.Run(cfg)
 		if err != nil {
 			// Check if user quit (Ctrl+C or ESC)
-			if strings.Contains(err.Error(), "interrupt") ||
-				strings.Contains(err.Error(), "cancelled") ||
-				strings.Contains(err.Error(), "user quit") {
+			if errQuit := checkUserQuit(err); errQuit != nil {
 				return ErrSkipAPIKey
 			}
 
@@ -258,13 +251,7 @@ func setupOutputDirectory(configService *config.Service) error {
 	}
 
 	result, err := input.Run(cfg)
-	if err != nil {
-		// Check for user quit (Ctrl+C)
-		if strings.Contains(err.Error(), "interrupt") ||
-			strings.Contains(err.Error(), "cancelled") ||
-			strings.Contains(err.Error(), "user quit") {
-			return ErrUserQuit
-		}
+	if err := checkUserQuit(err); err != nil {
 		return err
 	}
 

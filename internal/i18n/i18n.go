@@ -137,8 +137,6 @@ func (l *Localizer) loadEmbeddedFile(lang Language, filePath string) {
 	l.messages[lang] = messages
 }
 
-
-
 // Global localizer instance
 var globalLocalizer *Localizer
 
@@ -163,4 +161,21 @@ func T(key string) string {
 // Tf is a convenience function for formatted translation
 func Tf(key string, args ...interface{}) string {
 	return GetLocalizer().Tf(key, args...)
+}
+
+// SwitchLanguage switches to the specified language string
+func SwitchLanguage(langStr string) {
+	var lang Language
+	switch langStr {
+	case "zh":
+		lang = Chinese
+	default:
+		lang = English
+	}
+	
+	if globalLocalizer == nil {
+		InitLocalizer(lang)
+	} else {
+		globalLocalizer.SetLanguage(lang)
+	}
 }

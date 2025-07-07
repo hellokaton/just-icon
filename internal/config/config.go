@@ -65,7 +65,7 @@ func (s *Service) SetConfig(config *types.Config) error {
 	}
 
 	// Write to file (directly to home directory)
-	if err := os.WriteFile(s.configPath, data, 0600); err != nil {
+	if err := os.WriteFile(s.configPath, data, types.ConfigFilePerm); err != nil {
 		return fmt.Errorf("failed to write config file: %w", err)
 	}
 
@@ -108,22 +108,51 @@ func (s *Service) UpdateConfig(updates map[string]interface{}) error {
 	return s.SetConfig(config)
 }
 
-// GetAPIKey returns the OpenAI API key
-func (s *Service) GetAPIKey() (string, error) {
+// getConfigField is a generic method to get a config field with fallback
+func (s *Service) getConfigField(getter func(*types.Config) string, defaultValue string) (string, error) {
 	config, err := s.GetConfig()
 	if err != nil {
 		return "", err
 	}
-	return config.OpenAIAPIKey, nil
+	
+	value := getter(config)
+	if value == "" {
+		return defaultValue, nil
+	}
+	
+	return value, nil
+}
+
+// setConfigField is a generic method to set a config field
+func (s *Service) setConfigField(key string, value interface{}) error {
+	return s.UpdateConfig(map[string]interface{}{
+		key: value,
+	})
+}
+
+// SetConfigField is a generic method to set a config field
+func (s *Service) SetConfigField(key string, value interface{}) error {
+	return s.setConfigField(key, value)
+}
+
+// GetAPIKey returns the OpenAI API key
+func (s *Service) GetAPIKey() (string, error) {
+	return s.getConfigField(func(c *types.Config) string { return c.OpenAIAPIKey }, "")
 }
 
 // GetBaseURL returns the base URL
 func (s *Service) GetBaseURL() (string, error) {
-	config, err := s.GetConfig()
-	if err != nil {
-		return "", err
-	}
-	return config.BaseURL, nil
+	return s.getConfigField(func(c *types.Config) string { return c.BaseURL }, types.DefaultValues.BaseURL)
+}
+
+// GetDefaultOutputPath returns the default output path
+func (s *Service) GetDefaultOutputPath() (string, error) {
+	return s.getConfigField(func(c *types.Config) string { return c.DefaultOutputPath }, types.DefaultValues.OutputPath)
+}
+
+// GetLanguage returns the configured language
+func (s *Service) GetLanguage() (string, error) {
+	return s.getConfigField(func(c *types.Config) string { return c.Language }, types.DefaultValues.Language)
 }
 
 // IsInitialized returns whether the configuration has been initialized
@@ -137,13 +166,16 @@ func (s *Service) IsInitialized() (bool, error) {
 
 // SetInitialized marks the configuration as initialized
 func (s *Service) SetInitialized() error {
-	return s.UpdateConfig(map[string]interface{}{
-		"initialized": true,
-	})
+	return s.setConfigField("initialized", true)
 }
 
 // ResetConfig resets the configuration to default values
 func (s *Service) ResetConfig() error {
+	// Remove existing config file first
+	if err := os.Remove(s.configPath); err != nil && !os.IsNotExist(err) {
+		return fmt.Errorf("failed to remove existing config file: %w", err)
+	}
+
 	defaultConfig := map[string]interface{}{
 		"language":             types.DefaultValues.Language,
 		"base_url":            types.DefaultValues.BaseURL,
@@ -151,61 +183,22 @@ func (s *Service) ResetConfig() error {
 		"initialized":         false,
 	}
 
-	// Remove existing config file first
-	if err := os.Remove(s.configPath); err != nil && !os.IsNotExist(err) {
-		return fmt.Errorf("failed to remove existing config file: %w", err)
-	}
-
 	return s.UpdateConfig(defaultConfig)
 }
 
 // SetAPIKey sets the OpenAI API key
 func (s *Service) SetAPIKey(apiKey string) error {
-	return s.UpdateConfig(map[string]interface{}{
-		"openai_api_key": apiKey,
-	})
-}
-
-// GetDefaultOutputPath returns the default output path
-func (s *Service) GetDefaultOutputPath() (string, error) {
-	config, err := s.GetConfig()
-	if err != nil {
-		return "", err
-	}
-	
-	if config.DefaultOutputPath == "" {
-		return types.DefaultValues.OutputPath, nil
-	}
-	
-	return config.DefaultOutputPath, nil
+	return s.setConfigField("openai_api_key", apiKey)
 }
 
 // SetDefaultOutputPath sets the default output path
 func (s *Service) SetDefaultOutputPath(path string) error {
-	return s.UpdateConfig(map[string]interface{}{
-		"default_output_path": path,
-	})
-}
-
-// GetLanguage returns the configured language
-func (s *Service) GetLanguage() (string, error) {
-	config, err := s.GetConfig()
-	if err != nil {
-		return "", err
-	}
-
-	if config.Language == "" {
-		return types.DefaultValues.Language, nil
-	}
-
-	return config.Language, nil
+	return s.setConfigField("default_output_path", path)
 }
 
 // SetLanguage sets the interface language
 func (s *Service) SetLanguage(language string) error {
-	return s.UpdateConfig(map[string]interface{}{
-		"language": language,
-	})
+	return s.setConfigField("language", language)
 }
 
 // GetConfigPath returns the path to the config file
@@ -221,8 +214,6 @@ func ValidateAPIKey(apiKey string) error {
 
 	return nil
 }
-
-
 
 // DefaultService returns a default configuration service instance
 var DefaultService = NewService()

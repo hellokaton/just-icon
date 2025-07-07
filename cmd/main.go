@@ -5,8 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"os/signal"
-	"syscall"
 
 	"github.com/urfave/cli/v3"
 
@@ -17,14 +15,6 @@ import (
 )
 
 func main() {
-	// Set up signal handling for Ctrl+C to exit immediately
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-	go func() {
-		<-c
-		os.Exit(0)
-	}()
-
 	// Initialize default language (English)
 	i18n.InitLocalizer(i18n.English)
 
@@ -45,9 +35,7 @@ func main() {
 			args := cmd.Args()
 			if args.Len() > 0 {
 				lang := args.Get(0)
-				if lang == "zh" {
-					i18n.InitLocalizer(i18n.Chinese)
-				}
+				i18n.SwitchLanguage(lang)
 			}
 
 			// Run interactive mode
@@ -65,9 +53,7 @@ func main() {
 			args := cmd.Args()
 			if args.Len() > 0 {
 				firstArg := args.Get(0)
-				if firstArg == "zh" {
-					i18n.InitLocalizer(i18n.Chinese)
-				}
+				i18n.SwitchLanguage(firstArg)
 			}
 			return ctx, nil
 		},

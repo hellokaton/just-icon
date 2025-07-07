@@ -99,72 +99,82 @@ func handleConfigError(operation string, err error) error {
 	return err
 }
 
-func setAPIKey(configService *config.Service, apiKey string) error {
-	// Validate API key
-	if err := config.ValidateAPIKey(apiKey); err != nil {
-		utils.PrintError(i18n.Tf("config_invalid_api_key", err.Error()))
-		return nil // Don't return error to avoid showing usage
+// setConfigValue is a generic function for setting configuration values
+func setConfigValue(configService *config.Service, key, value string, validator func(string) error, setter func(string) error, successMsgKey string) error {
+	// Validate if validator is provided
+	if validator != nil {
+		if err := validator(value); err != nil {
+			utils.PrintError(i18n.Tf("config_invalid_"+key, err.Error()))
+			return nil // Don't return error to avoid showing usage
+		}
 	}
 
-	// Save API key
-	if err := configService.SetAPIKey(apiKey); err != nil {
-		return handleConfigError("save API key", err)
+	// Save the value
+	if err := setter(value); err != nil {
+		return handleConfigError("save "+key, err)
 	}
 
-	utils.PrintSuccess(i18n.T("config_api_key_success"))
-	fmt.Println()
-	utils.PrintDim(i18n.T("common_built_with"))
+	// Show success message
+	if successMsgKey != "" {
+		utils.PrintSuccess(i18n.Tf(successMsgKey, value))
+	}
 
 	return nil
+}
+
+func setAPIKey(configService *config.Service, apiKey string) error {
+	err := setConfigValue(configService, "api_key", apiKey, 
+		config.ValidateAPIKey, 
+		configService.SetAPIKey, 
+		"config_api_key_success")
+	
+	if err == nil {
+		fmt.Println()
+		utils.PrintDim(i18n.T("common_built_with"))
+	}
+	
+	return err
 }
 
 func setBaseURL(configService *config.Service, baseURL string) error {
-	// Save base URL
-	if err := configService.UpdateConfig(map[string]interface{}{
-		"base_url": baseURL,
-	}); err != nil {
-		return handleConfigError("save base URL", err)
-	}
-
-	utils.PrintSuccess(i18n.Tf("config_base_url_success", baseURL))
-	return nil
+	return setConfigValue(configService, "base_url", baseURL, 
+		nil, 
+		func(url string) error {
+			return configService.SetConfigField("base_url", url)
+		}, 
+		"config_base_url_success")
 }
 
 func setOutputPath(configService *config.Service, outputPath string) error {
-	// Save output path
-	if err := configService.SetDefaultOutputPath(outputPath); err != nil {
-		return handleConfigError("save output path", err)
-	}
-
-	utils.PrintSuccess(i18n.Tf("config_output_path_success", outputPath))
-	return nil
+	return setConfigValue(configService, "output_path", outputPath, 
+		nil, 
+		configService.SetDefaultOutputPath, 
+		"config_output_path_success")
 }
 
 func setLanguage(configService *config.Service, language string) error {
 	// Validate language
-	if language != "en" && language != "zh" {
-		utils.PrintError(fmt.Sprintf("Unsupported language: %s. Supported languages: en, zh", language))
+	validateLanguage := func(lang string) error {
+		if lang != "en" && lang != "zh" {
+			return fmt.Errorf("unsupported language: %s. Supported languages: en, zh", lang)
+		}
 		return nil
 	}
 
-	// Save language
-	if err := configService.SetLanguage(language); err != nil {
-		return handleConfigError("save language", err)
+	// Custom setter that also updates the localizer
+	setLangWithLocalizer := func(lang string) error {
+		if err := configService.SetLanguage(lang); err != nil {
+			return err
+		}
+		// Update localizer using the new SwitchLanguage function
+		i18n.SwitchLanguage(lang)
+		return nil
 	}
 
-	// Update localizer
-	var lang i18n.Language
-	switch language {
-	case "zh":
-		lang = i18n.Chinese
-	default:
-		lang = i18n.English
-	}
-	i18n.GetLocalizer().SetLanguage(lang)
-
-	utils.PrintSuccess(i18n.Tf("config_language_success", language))
-
-	return nil
+	return setConfigValue(configService, "language", language, 
+		validateLanguage, 
+		setLangWithLocalizer, 
+		"config_language_success")
 }
 
 func showConfig(configService *config.Service) error {

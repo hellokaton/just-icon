@@ -10,9 +10,35 @@ const (
 	QualityHigh   = "high"
 	QualityMedium = "medium"
 	QualityLow    = "low"
+	
+	// Size constants
+	SizeSmall  = "1024x1024"
+	SizeMedium = "1536x1024"
+	SizeLarge  = "1024x1536"
+	
+	// API constants
+	DefaultBaseURL = "https://api.katonai.dev"
+	APIVersion     = "/v1"
+	
+	// File constants
+	ConfigDirPerm  = 0755
+	ConfigFilePerm = 0600
+	
+	// Validation constants
+	MinImages = 1
+	MaxImages = 10
+
+	// API Key constants
+	APIKeyPrefix = "sk-"
+	APIKeyMaskLength = 4
 
 	// UI constants
 	DefaultPromptPlaceholder = "e.g., minimalist weather app with sun and cloud"
+	
+	// Error message constants
+	ErrorInterrupt = "interrupt"
+	ErrorCancelled = "cancelled"
+	ErrorUserQuit  = "user quit"
 )
 
 // Config represents the application configuration
@@ -68,22 +94,22 @@ var SupportedModels = []string{
 
 // SupportedSizes contains the mapping of models to their supported sizes
 var SupportedSizes = map[string][]string{
-	"gpt-image-1": {"1024x1024", "1536x1024", "1024x1536"},
+	ModelGPTImage1: {SizeSmall, SizeMedium, SizeLarge},
 }
 
 // SupportedQualities contains the mapping of models to their supported qualities
 var SupportedQualities = map[string][]string{
-	"gpt-image-1": {"auto", "high", "medium", "low"},
+	ModelGPTImage1: {QualityAuto, QualityHigh, QualityMedium, QualityLow},
 }
 
 // SupportedBackgrounds contains the mapping of models to their supported background types
 var SupportedBackgrounds = map[string][]string{
-	"gpt-image-1": {"auto", "transparent", "opaque"},
+	ModelGPTImage1: {"auto", "transparent", "opaque"},
 }
 
 // SupportedOutputFormats contains the mapping of models to their supported output formats
 var SupportedOutputFormats = map[string][]string{
-	"gpt-image-1": {"png", "jpeg", "webp"},
+	ModelGPTImage1: {"png", "jpeg", "webp"},
 }
 
 // DefaultValues contains default configuration values
@@ -100,13 +126,13 @@ var DefaultValues = struct {
 	BaseURL      string
 }{
 	Model:        ModelGPTImage1,
-	Size:         "1024x1024",
+	Size:         SizeSmall,
 	Quality:      QualityAuto,
 	OutputPath:   "./output",
-	NumImages:    1,
+	NumImages:    MinImages,
 	Background:   "auto",
 	OutputFormat: "png",
 	Moderation:   "auto",
 	Language:     "en",
-	BaseURL:      "https://api.katonai.dev",
+	BaseURL:      DefaultBaseURL,
 }

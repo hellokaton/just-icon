@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/pterm/pterm"
+	"just-icon/internal/types"
 )
 
 // Color functions for consistent output styling using pterm
@@ -72,8 +73,8 @@ func PrintDim(message string) {
 
 // MaskAPIKey masks an API key for display, showing only the last 4 characters
 func MaskAPIKey(apiKey string) string {
-	if len(apiKey) <= 4 {
+	if len(apiKey) <= types.APIKeyMaskLength {
 		return "****"
 	}
-	return fmt.Sprintf("sk-...%s", apiKey[len(apiKey)-4:])
+	return fmt.Sprintf("%s...%s", types.APIKeyPrefix, apiKey[len(apiKey)-types.APIKeyMaskLength:])
 }

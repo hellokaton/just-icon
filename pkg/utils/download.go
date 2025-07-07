@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"time"
+	"just-icon/internal/types"
 )
 
 // DownloadFile downloads a file from URL and saves it to the specified path
@@ -46,9 +47,9 @@ func DownloadFile(url, filepath string) error {
 	return nil
 }
 
-// EnsureDir ensures that a directory exists, creating it if necessary
+// EnsureDir ensures the directory exists
 func EnsureDir(dirPath string) error {
-	return os.MkdirAll(dirPath, 0755)
+	return os.MkdirAll(dirPath, types.ConfigDirPerm)
 }
 
 // GenerateFileName generates a unique filename with timestamp

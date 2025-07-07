@@ -24,6 +24,29 @@ var ErrEmptyPrompt = errors.New("empty")
 var ErrPlaceholderPrompt = errors.New("placeholder")
 var ErrUserQuit = errors.New("user quit")
 
+// handleUserQuit checks if the error is a user quit error and handles it accordingly
+func handleUserQuit(err error) error {
+	if err == nil {
+		return nil
+	}
+	
+	// Check for user quit error
+	if errors.Is(err, ErrUserQuit) {
+		return ErrUserQuit
+	}
+	
+	// Check for interrupt patterns in error message
+	errMsg := err.Error()
+	if strings.Contains(errMsg, types.ErrorInterrupt) ||
+		strings.Contains(errMsg, types.ErrorCancelled) ||
+		strings.Contains(errMsg, types.ErrorUserQuit) ||
+		errMsg == "" {
+		return ErrUserQuit
+	}
+	
+	return err
+}
+
 // validatePrompt validates that the prompt is not empty and not the placeholder text
 func validatePrompt(prompt string) error {
 	prompt = strings.TrimSpace(prompt)
@@ -185,14 +208,7 @@ func getIconPrompt() (string, error) {
 	}
 
 	result, err := input.Run(cfg)
-	if err != nil {
-		// Check for user quit (Ctrl+C)
-		if strings.Contains(err.Error(), "interrupt") ||
-			strings.Contains(err.Error(), "cancelled") ||
-			strings.Contains(err.Error(), "user quit") ||
-			err.Error() == "" {
-			return "", ErrUserQuit
-		}
+	if err := handleUserQuit(err); err != nil {
 		return "", err
 	}
 
@@ -210,14 +226,7 @@ func getQuantitySelection() (int, error) {
 	}
 
 	result, err := input.Run(cfg)
-	if err != nil {
-		// Check for user quit (Ctrl+C)
-		if strings.Contains(err.Error(), "interrupt") ||
-			strings.Contains(err.Error(), "cancelled") ||
-			strings.Contains(err.Error(), "user quit") ||
-			err.Error() == "" {
-			return 0, ErrUserQuit
-		}
+	if err := handleUserQuit(err); err != nil {
 		return 0, err
 	}
 
@@ -247,14 +256,7 @@ func getQualitySelection() (string, error) {
 	}
 
 	result, err := choose.Run(cfg, entries)
-	if err != nil {
-		// Check for user quit (Ctrl+C)
-		if strings.Contains(err.Error(), "interrupt") ||
-			strings.Contains(err.Error(), "cancelled") ||
-			strings.Contains(err.Error(), "user quit") ||
-			err.Error() == "" {
-			return "", ErrUserQuit
-		}
+	if err := handleUserQuit(err); err != nil {
 		return "", err
 	}
 
@@ -330,7 +332,7 @@ func generateIcon(prompt_text string, numImages int, quality, outputDir string) 
 	}
 
 	// Create output directory if it doesn't exist
-	if err := os.MkdirAll(options.Output, 0755); err != nil {
+	if err := os.MkdirAll(options.Output, types.ConfigDirPerm); err != nil {
 		return fmt.Errorf("failed to create output directory: %w", err)
 	}
 

@@ -26,9 +26,9 @@ type Client struct {
 func NewClient(apiKey, baseURL string) *Client {
 	config := openai.DefaultConfig(apiKey)
 	if baseURL != "" {
-		config.BaseURL = baseURL + "/v1"
+		config.BaseURL = baseURL + types.APIVersion
 	} else {
-		config.BaseURL = "https://api.katonai.dev/v1"
+		config.BaseURL = types.DefaultBaseURL + types.APIVersion
 	}
 
 	return &Client{
@@ -45,7 +45,7 @@ func NewClientFromConfig() (*Client, error) {
 	}
 
 	if apiKey == "" {
-		return nil, fmt.Errorf("API key not configured. Get your key at https://api.katonai.dev and run: just-icon config --api-key YOUR_KEY")
+		return nil, fmt.Errorf("API key not configured. Get your key at %s and run: just-icon config --api-key YOUR_KEY", types.DefaultBaseURL)
 	}
 
 	baseURL, err := configService.GetBaseURL()
@@ -138,16 +138,9 @@ func (c *Client) validateParameters(options *types.IconGenerationOptions) error 
 		model = types.DefaultValues.Model
 	}
 
-	// Check if model is supported
-	found := false
-	for _, supportedModel := range types.SupportedModels {
-		if model == supportedModel {
-			found = true
-			break
-		}
-	}
-	if !found {
-		return fmt.Errorf("unsupported model: %s. Supported models: %v", model, types.SupportedModels)
+	// Validate model
+	if err := c.validateInSlice(model, types.SupportedModels, "model"); err != nil {
+		return err
 	}
 
 	// Validate size
@@ -155,21 +148,9 @@ func (c *Client) validateParameters(options *types.IconGenerationOptions) error 
 	if size == "" {
 		size = types.DefaultValues.Size
 	}
-
-	validSizes, exists := types.SupportedSizes[model]
-	if !exists {
-		return fmt.Errorf("no size configuration for model: %s", model)
-	}
-
-	found = false
-	for _, validSize := range validSizes {
-		if size == validSize {
-			found = true
-			break
-		}
-	}
-	if !found {
-		return fmt.Errorf("invalid size %s for model %s. Valid sizes: %v", size, model, validSizes)
+	
+	if err := c.validateInModelMap(size, types.SupportedSizes, model, "size"); err != nil {
+		return err
 	}
 
 	// Validate quality
@@ -177,21 +158,9 @@ func (c *Client) validateParameters(options *types.IconGenerationOptions) error 
 	if quality == "" {
 		quality = types.DefaultValues.Quality
 	}
-
-	validQualities, exists := types.SupportedQualities[model]
-	if !exists {
-		return fmt.Errorf("no quality configuration for model: %s", model)
-	}
-
-	found = false
-	for _, validQuality := range validQualities {
-		if quality == validQuality {
-			found = true
-			break
-		}
-	}
-	if !found {
-		return fmt.Errorf("invalid quality %s for model %s. Valid qualities: %v", quality, model, validQualities)
+	
+	if err := c.validateInModelMap(quality, types.SupportedQualities, model, "quality"); err != nil {
+		return err
 	}
 
 	// Validate number of images
@@ -200,11 +169,36 @@ func (c *Client) validateParameters(options *types.IconGenerationOptions) error 
 		numImages = types.DefaultValues.NumImages
 	}
 
-	if numImages < 1 || numImages > 10 {
-		return fmt.Errorf("number of images must be between 1 and 10")
+	if numImages < types.MinImages || numImages > types.MaxImages {
+		return fmt.Errorf("number of images must be between %d and %d", types.MinImages, types.MaxImages)
 	}
 
 	return nil
+}
+
+// validateInSlice validates if a value exists in a slice
+func (c *Client) validateInSlice(value string, validValues []string, paramName string) error {
+	for _, validValue := range validValues {
+		if value == validValue {
+			return nil
+		}
+	}
+	return fmt.Errorf("unsupported %s: %s. Supported %ss: %v", paramName, value, paramName, validValues)
+}
+
+// validateInModelMap validates if a value exists in a model-specific map
+func (c *Client) validateInModelMap(value string, validMap map[string][]string, model, paramName string) error {
+	validValues, exists := validMap[model]
+	if !exists {
+		return fmt.Errorf("no %s configuration for model: %s", paramName, model)
+	}
+
+	for _, validValue := range validValues {
+		if value == validValue {
+			return nil
+		}
+	}
+	return fmt.Errorf("invalid %s %s for model %s. Valid %ss: %v", paramName, value, model, paramName, validValues)
 }
 
 // buildRequest builds the API request
@@ -299,7 +293,7 @@ func (c *Client) buildRequest(options *types.IconGenerationOptions) openai.Image
 // logRequest logs the API request details to a file
 func (c *Client) logRequest(request openai.ImageRequest) error {
 	logDir := "logs"
-	if err := os.MkdirAll(logDir, 0755); err != nil {
+	if err := os.MkdirAll(logDir, types.ConfigDirPerm); err != nil {
 		return err
 	}
 
@@ -328,7 +322,7 @@ func (c *Client) logRequest(request openai.ImageRequest) error {
 // logResponse logs the API response details to a file
 func (c *Client) logResponse(response openai.ImageResponse, apiErr error) error {
 	logDir := "logs"
-	if err := os.MkdirAll(logDir, 0755); err != nil {
+	if err := os.MkdirAll(logDir, types.ConfigDirPerm); err != nil {
 		return err
 	}
 
