@@ -12,7 +12,7 @@ Create stunning app icons in seconds using [KatonAI](https://api.katonai.dev) `g
 
 ## ✨ Features
 
-- 🚀 **Lightning Fast** - Generate icons in seconds, not hours
+- 🚀 **Lightning Fast** - Generate icons in minutes, not hours
 - 🎯 **Cross Platform** - Works everywhere: macOS, Linux, and Windows
 - 🛡️ **Privacy First** - Zero data collection, API keys stay local
 - 💎 **HD Quality** - Crystal clear icons for any device
