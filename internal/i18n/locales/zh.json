@@ -70,9 +70,8 @@
   "interactive_quality_high": "高质量（推荐）",
   "interactive_quality_medium": "中等",
   "interactive_quality_low": "低质量",
-  "interactive_generating": "🎨 正在生成您的图标...",
-  "interactive_generating_spinner": "正在使用AI生成图标",
-  "interactive_generating_success": "图标生成成功！",
+  "interactive_generating_spinner": "正在生成图标",
+  "interactive_generating_success": "🎉 图标生成完成！",
   "interactive_another": "您想生成另一个图标吗？",
   "interactive_yes": "是",
   "interactive_no": "否",
@@ -83,8 +82,7 @@
   "interactive_api_key_required": "生成图标需要API密钥",
   "interactive_output_dir_required": "需要设置输出目录",
   "interactive_output_dir_set_hint": "设置命令",
-  "icon_generation_complete": "🎉 图标生成完成！",
-  "icon_generation_summary": "在 %s 中生成了 %s 张图片",
+  "icon_generation_summary": "生成了 %s 张图片，保存在 %s",
   "interactive_quality_error": "请选择一个质量级别。",
   "interactive_another_error": "请选择一个选项。"
 }

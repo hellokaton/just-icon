@@ -294,7 +294,6 @@ func generateIcon(prompt_text string, numImages int, quality, outputDir string) 
 
 	// Show generation info
 	fmt.Println()
-	utils.PrintInfo(i18n.T("interactive_generating"))
 	fmt.Printf("%s %s\n", i18n.T("prompt_label"), utils.Bold(options.Prompt))
 	fmt.Printf("%s %s\n", i18n.T("model_label"), utils.Blue(types.ModelGPTImage1))
 	fmt.Printf("%s %s\n", i18n.T("size_label"), utils.Cyan(options.Size))
@@ -356,6 +355,7 @@ func generateIcon(prompt_text string, numImages int, quality, outputDir string) 
 		}
 
 		savedFiles = append(savedFiles, filePath)
+		fmt.Println()
 		utils.PrintSuccess(fmt.Sprintf("Saved: %s", filePath))
 	}
 
@@ -365,11 +365,10 @@ func generateIcon(prompt_text string, numImages int, quality, outputDir string) 
 
 	// Show summary
 	fmt.Println()
-	utils.PrintSubHeader(i18n.T("icon_generation_complete"))
 	fmt.Printf(i18n.T("icon_generation_summary")+"\n",
 		utils.Green(fmt.Sprintf("%d", len(savedFiles))),
 		utils.Blue(options.Output))
-
+	fmt.Println()
 	return nil
 }
 
