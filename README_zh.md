@@ -66,6 +66,8 @@ just-icon
 - API 密钥配置
 - 输出目录设置
 
+- [详细教程](https://docs.katonai.dev/tutorial/gpt4o/just-icon.html)
+
 ## 🎨 实际效果展示
 
 **看看 Just Icon 的实际效果：**
