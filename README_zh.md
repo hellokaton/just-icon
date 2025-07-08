@@ -4,7 +4,7 @@
 
 > 基于 Go 构建的 AI 驱动图标生成 CLI 工具
 
-使用 [KatonAI](https://api.katonai.dev) 的 `gpt-image-1` 接口，几秒钟就能搞定精美的应用图标。受 SnapAI 启发打造的 Go 版本，专为想要专业图标但不想折腾设计的开发者而生！🎨
+使用 [KatonAI](https://api.katonai.dev) 的 `gpt-image-1` 接口，一分钟就能搞定精美的应用图标。受 SnapAI 启发打造的 Go 版本，专为想要专业图标但不想折腾设计的开发者而生！🎨
 
 ## 📸 预览
 
