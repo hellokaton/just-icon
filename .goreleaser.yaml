@@ -17,6 +17,9 @@ builds:
       - amd64
       - arm
       - arm64
+    hooks:
+      post:
+        - upx "{{ .Path }}"
     ignore:
       - goos: windows
         goarch: arm
