@@ -19,7 +19,7 @@ builds:
       - arm64
     hooks:
       post:
-        - upx "{{ .Path }}"
+        - sh -c 'if [ "{{ .Os }}" = "darwin" ]; then upx --force-macos "{{ .Path }}"; else upx "{{ .Path }}"; fi'
     ignore:
       - goos: windows
         goarch: arm
